@@ -1,0 +1,40 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Guild {
+  id        String    @id @unique
+  name      String    @db.VarChar(255)
+  thumbnail String    @db.VarChar(255)
+  messages  Message[]
+
+  @@map("guild")
+}
+
+model Message {
+  id        String   @id @unique
+  message   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  reactions Int
+  guildId   String
+  guild     Guild    @relation(fields: [guildId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@map("message")
+}
+
+model User {
+  id        String    @id @unique
+  name      String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  avatarUrl String    @db.VarChar(255)
+  messages  Message[]
+
+  @@map("user")
+}
