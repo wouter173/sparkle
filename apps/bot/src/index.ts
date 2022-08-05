@@ -1,20 +1,21 @@
-import { Client, Partials } from "discord.js";
+import { Client, ClientOptions, Partials } from "discord.js";
 import { PrismaClient } from "db";
 import dotenv from "dotenv";
+import { setMessage } from "./mutations";
+import { trigger, emoji } from "../config.json";
 dotenv.config({ path: "../../.env" });
 
 const prisma = new PrismaClient();
 
-const trigger = "?!";
-const emoji = "✨";
+const intents: ClientOptions["intents"] = [
+  "GuildMessageReactions",
+  "GuildMessages",
+  "MessageContent",
+  "Guilds",
+];
 
 const client = new Client({
-  intents: [
-    "GuildMessageReactions",
-    "GuildMessages",
-    "MessageContent",
-    "Guilds",
-  ],
+  intents,
   partials: [Partials.Channel, Partials.Message, Partials.Reaction],
 });
 
@@ -26,53 +27,28 @@ client.on("messageCreate", (msg) => {
 });
 
 client.on("messageReactionAdd", async (payload) => {
-  if (payload.partial) await payload.fetch();
+  if (payload.partial) payload = await payload.fetch();
   if (payload.emoji.name != emoji) return;
 
-  const author = payload.message.author!;
-  const guild = payload.message.guild!;
-  const reactionCount = payload.message.reactions.cache.get(emoji)!.count;
+  let message = payload.message;
+  if (message.partial) message = await message.fetch();
 
-  await prisma.message.create({
-    data: {
-      id: payload.message.id,
-      message: payload.message.content || "",
-      createdAt: payload.message.createdAt,
-      reactions: reactionCount,
-      author: {
-        connectOrCreate: {
-          where: {
-            id: author.id,
-          },
-          create: {
-            id: author.id,
-            name: author.username,
-            createdAt: author.createdAt,
-            avatarUrl: author.avatarURL() || "",
-          },
-        },
-      },
-      guild: {
-        connectOrCreate: {
-          where: {
-            id: guild.id,
-          },
-          create: {
-            id: guild.id,
-            name: guild.name,
-            thumbnail: guild.iconURL() || "",
-          },
-        },
-      },
-    },
-    include: {
-      author: true,
-      guild: true,
-    },
-  });
+  const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
+
+  setMessage(prisma, message, reactionCount);
 });
 
-client.on("messageReactionRemove", async (payload) => {});
+client.on("messageReactionRemove", async (payload) => {
+  if (payload.partial) payload = await payload.fetch();
+  if (payload.emoji.name != emoji) return;
+
+  let message = payload.message;
+  if (message.partial) message = await message.fetch();
+
+  const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
+
+  setMessage(prisma, message, reactionCount);
+});
 
 client.on("ready", () => console.log("ready"));
 client.login(process.env.BOT_TOKEN);

@@ -8,6 +8,7 @@
   "compilerOptions": {
     "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": ".",
+    "resolveJsonModule": true
   }
 }
