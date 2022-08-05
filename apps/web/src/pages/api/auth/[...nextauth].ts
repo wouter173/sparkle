@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        session.discordId = user.discordId;
       }
       return session;
     },
@@ -34,14 +35,12 @@ export const authOptions: NextAuthOptions = {
           profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`;
         }
 
-        console.log(profile);
-
         return {
           id: profile.id,
+          discordId: profile.id,
           name: profile.username,
           email: profile.email,
           image: profile.image_url,
-          huts: "yup",
         };
       },
     }),

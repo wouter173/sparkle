@@ -1,25 +1,23 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "guild" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "thumbnail" VARCHAR(255) NOT NULL,
 
-  - You are about to drop the column `avatarUrl` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `createdAt` on the `user` table. All the data in the column will be lost.
-  - A unique constraint covering the columns `[email]` on the table `user` will be added. If there are existing duplicate values, this will fail.
+    CONSTRAINT "guild_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- DropForeignKey
-ALTER TABLE "message" DROP CONSTRAINT "message_authorId_fkey";
+-- CreateTable
+CREATE TABLE "message" (
+    "id" TEXT NOT NULL,
+    "message" VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "reactions" INTEGER NOT NULL,
+    "guildId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
 
--- DropIndex
-DROP INDEX "user_id_key";
-
--- AlterTable
-ALTER TABLE "user" DROP COLUMN "avatarUrl",
-DROP COLUMN "createdAt",
-ADD COLUMN     "email" TEXT,
-ADD COLUMN     "emailVerified" TIMESTAMP(3),
-ADD COLUMN     "image" TEXT,
-ALTER COLUMN "name" DROP NOT NULL,
-ALTER COLUMN "name" SET DATA TYPE TEXT;
+    CONSTRAINT "message_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "author" (
@@ -60,11 +58,28 @@ CREATE TABLE "session" (
 );
 
 -- CreateTable
+CREATE TABLE "user" (
+    "id" TEXT NOT NULL,
+    "name" TEXT,
+    "email" TEXT,
+    "emailVerified" TIMESTAMP(3),
+    "image" TEXT,
+
+    CONSTRAINT "user_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "verification_token" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "guild_id_key" ON "guild"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "message_id_key" ON "message"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "author_id_key" ON "author"("id");
@@ -76,13 +91,16 @@ CREATE UNIQUE INDEX "account_provider_providerAccountId_key" ON "account"("provi
 CREATE UNIQUE INDEX "session_sessionToken_key" ON "session"("sessionToken");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "verification_token_token_key" ON "verification_token"("token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "verification_token_identifier_token_key" ON "verification_token"("identifier", "token");
 
--- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
+-- AddForeignKey
+ALTER TABLE "message" ADD CONSTRAINT "message_guildId_fkey" FOREIGN KEY ("guildId") REFERENCES "guild"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "message" ADD CONSTRAINT "message_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "author"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

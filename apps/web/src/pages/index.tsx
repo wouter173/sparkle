@@ -1,15 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
+import { Header } from "../components/Header";
 
 const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-  const { data, isLoading } = trpc.useQuery(["question.getMessages"]);
+  const { data: session } = useSession();
+  const { data, isLoading } = trpc.useQuery(["messages"]);
+
+  console.log(session?.discordId);
 
   return (
-    <div>
-      {sessionData && <p>Logged in as {sessionData?.user?.name}</p>}
+    <main className="bg-gray-900 h-screen text-white">
+      <Header />
+      {session && <p>Logged in as {session?.user?.name}</p>}
       {isLoading ? (
         <p>Loading</p>
       ) : (
@@ -19,13 +23,7 @@ const AuthShowcase: React.FC = () => {
           </p>
         ))
       )}
-      <button
-        className="px-4 py-2 border-2 border-blue-500 rounded-md"
-        onClick={sessionData ? () => signOut() : () => signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
+    </main>
   );
 };
 
