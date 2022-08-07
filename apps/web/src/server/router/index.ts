@@ -21,7 +21,7 @@ export const appRouter = createProtectedRouter()
         },
       });
 
-      prisma.$disconnect();
+      await prisma.$disconnect();
 
       return guilds;
     },
@@ -48,7 +48,7 @@ export const appRouter = createProtectedRouter()
         },
       });
 
-      prisma.$disconnect();
+      await prisma.$disconnect();
 
       return messages;
     },

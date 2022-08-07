@@ -11,7 +11,7 @@ const AuthShowcase: React.FC = () => {
   console.log(session?.discordId);
 
   return (
-    <main className="bg-gray-900 h-screen text-white">
+    <main className="bg-main h-screen text-white">
       <Header />
       {session && <p>Logged in as {session?.user?.name}</p>}
       {isLoading ? (
