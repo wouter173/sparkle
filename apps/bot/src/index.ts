@@ -1,9 +1,8 @@
-import { Client, ClientOptions, Partials } from "discord.js";
+import "dotenv/config";
+import { Client, ClientOptions, MessageReaction, PartialMessageReaction, Partials } from "discord.js";
 import { PrismaClient } from "db";
-import dotenv from "dotenv";
 import { setMessage } from "./mutations";
 import { trigger, emoji } from "../config.json";
-dotenv.config({ path: "../../.env" });
 
 const prisma = new PrismaClient();
 
@@ -12,6 +11,8 @@ const intents: ClientOptions["intents"] = [
   "GuildMessages",
   "MessageContent",
   "Guilds",
+  "GuildMembers",
+  "GuildPresences",
 ];
 
 const client = new Client({
@@ -26,7 +27,51 @@ client.on("messageCreate", (msg) => {
   }
 });
 
-client.on("messageReactionAdd", async (payload) => {
+client.on("guildUpdate", async (oldGuild, newGuild) => {
+  const guild = await prisma.guild.findUnique({
+    where: {
+      id: oldGuild.id,
+    },
+  });
+
+  if (guild == null) return;
+
+  await prisma.guild.update({
+    where: {
+      id: oldGuild.id,
+    },
+    data: {
+      name: newGuild.name,
+      thumbnail: newGuild.iconURL() || "",
+    },
+  });
+
+  console.log("guild update, id:" + guild.id);
+});
+
+client.on("userUpdate", async (oldUser, newUser) => {
+  const user = await prisma.discordUser.findUnique({
+    where: {
+      id: oldUser.id,
+    },
+  });
+
+  if (user == null) return;
+  await prisma.discordUser.update({
+    where: {
+      id: oldUser.id,
+    },
+    data: {
+      name: newUser.username,
+      avatar: newUser.avatarURL() || "",
+      discriminator: newUser.discriminator,
+    },
+  });
+
+  console.log("user update, id:" + user.id);
+});
+
+const updateReaction = async (payload: MessageReaction | PartialMessageReaction) => {
   if (payload.partial) payload = await payload.fetch();
   if (payload.emoji.name != emoji) return;
 
@@ -36,19 +81,10 @@ client.on("messageReactionAdd", async (payload) => {
   const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
 
   setMessage(prisma, message, reactionCount);
-});
+};
 
-client.on("messageReactionRemove", async (payload) => {
-  if (payload.partial) payload = await payload.fetch();
-  if (payload.emoji.name != emoji) return;
-
-  let message = payload.message;
-  if (message.partial) message = await message.fetch();
-
-  const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
-
-  setMessage(prisma, message, reactionCount);
-});
+client.on("messageReactionAdd", updateReaction);
+client.on("messageReactionRemove", updateReaction);
 
 client.on("ready", () => console.log("ready"));
 client.login(process.env.BOT_TOKEN);

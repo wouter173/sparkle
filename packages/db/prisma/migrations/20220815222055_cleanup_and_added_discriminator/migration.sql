@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "discord_user" ADD COLUMN     "discriminator" TEXT NOT NULL DEFAULT 'a',
+ALTER COLUMN "name" SET DATA TYPE TEXT,
+ALTER COLUMN "avatar" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "guild" ALTER COLUMN "name" SET DATA TYPE TEXT,
+ALTER COLUMN "thumbnail" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "message" ALTER COLUMN "message" SET DATA TYPE TEXT;

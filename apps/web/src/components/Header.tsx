@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import Avatar from "./Avatar";
 
 export const Header: React.FC = () => {
   const { data: session } = useSession();
@@ -18,7 +19,7 @@ export const Header: React.FC = () => {
           </Link>
         </li>
         <li className="ml-auto">
-          <img src={session?.user?.image || ""} alt="" className="h-11 rounded-full" />
+          <Avatar />
         </li>
         <li>
           <button

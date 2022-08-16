@@ -46,8 +46,9 @@ export const createMessage = async (
           create: {
             id: author.id,
             name: author.username,
+            discriminator: author.discriminator,
             createdAt: author.createdAt,
-            avatarUrl: author.avatarURL() || "",
+            avatar: author.avatarURL() || "",
           },
         },
       },

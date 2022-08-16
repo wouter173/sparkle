@@ -1,10 +1,7 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "db";
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import DiscordProvider, { DiscordProfile } from "next-auth/providers/discord";
 import { env } from "../../../env/server.mjs";
-
-const prisma = new PrismaClient();
+import adapter from "../../../server/adapter";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -36,17 +33,14 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: profile.id,
+          ...profile,
           discordId: profile.id,
-          name: profile.username,
-          email: profile.email,
-          image: profile.image_url,
         };
       },
     }),
   ],
 
-  adapter: PrismaAdapter(prisma),
+  adapter,
 };
 
 export default NextAuth(authOptions);

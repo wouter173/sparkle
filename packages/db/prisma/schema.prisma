@@ -9,34 +9,43 @@ generator client {
 
 model Guild {
   id        String    @id @unique
-  name      String    @db.VarChar(255)
-  thumbnail String    @db.VarChar(255)
+  name      String
+  thumbnail String    @db.Text
   messages  Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("guild")
 }
 
 model Message {
-  id        String   @id @unique
-  message   String   @db.VarChar(255)
-  createdAt DateTime @default(now())
+  id        String      @id @unique
+  message   String      @db.Text
   reactions Int
   guildId   String
-  guild     Guild    @relation(fields: [guildId], references: [id])
+  guild     Guild       @relation(fields: [guildId], references: [id])
   authorId  String
-  author    Author   @relation(fields: [authorId], references: [id])
+  author    DiscordUser @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("message")
 }
 
-model Author {
-  id        String    @id @unique
-  name      String    @db.VarChar(255)
-  createdAt DateTime  @default(now())
-  avatarUrl String    @db.VarChar(255)
-  messages  Message[]
+model DiscordUser {
+  id            String    @id @unique
+  name          String
+  discriminator String
+  avatar        String    @db.Text
+  messages      Message[]
+  user          User?
 
-  @@map("author")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("discord_user")
 }
 
 model Account {
@@ -71,13 +80,14 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  discordId     String    @unique
-  name          String?
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+
+  discordId   String      @unique
+  discordUser DiscordUser @relation(fields: [discordId], references: [id])
+
+  accounts Account[]
+  sessions Session[]
 
   @@map("user")
 }
