@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
-import { Header } from "../components/Header";
+import Nav from "../components/Nav";
 
 const Home: NextPage = () => {
   const { data: session } = useSession();
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-main h-screen text-white">
-        <Header />
+        <Nav />
         {session && <p>Logged in as {session?.user?.name}</p>}
         {isLoading ? (
           <p>Loading</p>

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
-import { Header } from "../../components/Header";
+import Nav from "../../components/Nav";
 import { trpc } from "../../utils/trpc";
 
 const guildPage: NextPage = () => {
@@ -12,7 +12,7 @@ const guildPage: NextPage = () => {
 
   return (
     <main className="bg-main h-screen w-full">
-      <Header />
+      <Nav />
       <GuildMessagesView id={id} />
     </main>
   );
