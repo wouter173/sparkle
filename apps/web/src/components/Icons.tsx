@@ -32,12 +32,8 @@ export const LogoIconSansSerif = (props: IconProps) => (
 
     <defs>
       <linearGradient id="gradient" x1="68" y1="33" x2="68" y2="-31.5" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stopColor="#FFAC33">
-          <animate dur="2s" attributeName="stopColor" from="#FFAC33" to="#FFFFFF" />
-        </stop>
-        <stop offset="0" stopColor="#FFCC4D">
-          <animate dur="2s" attributeName="offset" fill="freeze" from="0" to="1" />
-        </stop>
+        <stop offset="0" stopColor="#FFAC33" />
+        <stop offset="0" stopColor="#FFCC4D" />
       </linearGradient>
     </defs>
   </svg>

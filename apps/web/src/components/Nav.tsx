@@ -19,23 +19,14 @@ const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) 
 const Nav: FC = () => {
   const { data: session } = useSession();
   const { route } = useRouter();
-  const [logoHover, setLogoHover] = useState(false);
 
   return (
     <header className="h-20 border-b-2 border-b-main bg-header text-white">
       <ul className="mx-auto flex h-full w-3/4 items-center gap-4">
         <li>
           <Link href="/">
-            <div
-              className="relative h-7 cursor-pointer"
-              onMouseEnter={() => setLogoHover(true)}
-              onMouseLeave={() => setLogoHover(false)}
-            >
-              <LogoIconSansSerif className="h-full fill-white" />
-              <LogoIconSansSerif
-                className="absolute top-0 left-0 h-full fill-[url(#gradient)] transition-all"
-                style={{ opacity: logoHover ? "1" : "0" }}
-              />
+            <div className="relative h-7 cursor-pointer">
+              <LogoIconSansSerif className="absolute top-0 left-0 h-full fill-[url(#gradient)] transition-all" />
             </div>
           </Link>
         </li>
