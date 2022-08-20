@@ -1,16 +1,17 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useState } from "react";
 import Avatar from "./Avatar";
+import { LogoIconSansSerif } from "./Icons";
 
 const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) => {
   return (
-    <li className="flex h-full relative">
+    <li className="relative flex h-full">
       <Link href={props.route}>
-        <a className="h-full flex flex-col justify-center">{props.title}</a>
+        <a className="flex h-full flex-col justify-center">{props.title}</a>
       </Link>
-      {props.active ? <div className="h-[2px] bg-white w-full absolute bottom-0" /> : null}
+      {props.active ? <div className="absolute bottom-0 h-[2px] w-full bg-white" /> : null}
     </li>
   );
 };
@@ -18,13 +19,24 @@ const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) 
 const Nav: FC = () => {
   const { data: session } = useSession();
   const { route } = useRouter();
+  const [logoHover, setLogoHover] = useState(false);
 
   return (
-    <header className="bg-header h-20 text-white border-b-2 border-b-main">
-      <ul className="h-full flex items-center w-3/4 mx-auto gap-4">
+    <header className="h-20 border-b-2 border-b-main bg-header text-white">
+      <ul className="mx-auto flex h-full w-3/4 items-center gap-4">
         <li>
           <Link href="/">
-            <a className="font-bold text-3xl">Likey</a>
+            <div
+              className="relative h-7 cursor-pointer"
+              onMouseEnter={() => setLogoHover(true)}
+              onMouseLeave={() => setLogoHover(false)}
+            >
+              <LogoIconSansSerif className="h-full fill-white" />
+              <LogoIconSansSerif
+                className="absolute top-0 left-0 h-full fill-[url(#gradient)] transition-all"
+                style={{ opacity: logoHover ? "1" : "0" }}
+              />
+            </div>
           </Link>
         </li>
         <li className="ml-auto h-full">

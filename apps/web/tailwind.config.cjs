@@ -10,6 +10,9 @@ module.exports = {
       borderColor: {
         main: "#373737",
       },
+      textColor: {
+        darkened: "#ccc",
+      },
     },
   },
   plugins: [],
