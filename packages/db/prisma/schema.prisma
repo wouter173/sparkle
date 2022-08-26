@@ -20,13 +20,14 @@ model Guild {
 }
 
 model Message {
-  id        String      @id @unique
-  message   String      @db.Text
-  reactions Int
-  guildId   String
-  guild     Guild       @relation(fields: [guildId], references: [id])
-  authorId  String
-  author    DiscordUser @relation(fields: [authorId], references: [id])
+  id          String      @id @unique
+  message     String      @db.Text
+  reactions   Int
+  guildId     String
+  guild       Guild       @relation(fields: [guildId], references: [id])
+  authorId    String
+  author      DiscordUser @relation(fields: [authorId], references: [id])
+  attachments String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
