@@ -2,7 +2,7 @@ import { DiscordUser, Guild, Message } from "db";
 import { APIAttachment } from "discord-api-types/v10";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import Nav from "../../components/Nav";
 import { trpc } from "../../utils/trpc";
 
@@ -43,27 +43,34 @@ const Message: FC<{ msg: Message & { guild: Guild; author: DiscordUser } }> = ({
 
   const contentElements = splitContent.map((slice) => {
     const matches = slice.match(/(<a?:(?<name>\S+):(?<id>\d+)>)/);
-    if (!matches) return <>{slice}</>;
+    if (!matches) return slice;
 
     const { name, id } = matches.groups!;
-    return <Emoji name={name || ""} id={id || ""} />;
+    return () => <Emoji name={name || ""} id={id || ""} />;
   });
 
-  const content = msg.message;
+  const content = (
+    <>
+      {contentElements.map((El, i) => {
+        if (typeof El === "string") return El;
+        return <El key={msg.id + "-" + i} />;
+      })}
+    </>
+  );
+
+  const attachments = JSON.parse(msg.attachments) as APIAttachment[];
 
   return (
     <article className="flex w-full flex-row">
       <img src={msg.author.avatar} alt="" className="mr-2 h-12 rounded-full" />
       <div className="flex flex-col gap-2">
-        {content ? (
-          <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">
-            {contentElements.map((El) => (El ? El : null))}
-          </div>
+        {contentElements.length > 0 ? (
+          <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">{content}</div>
         ) : null}
 
-        {msg.attachments.length != 2 ? (
+        {attachments.length > 0 ? (
           <ul className="flex w-full flex-col gap-2">
-            {(JSON.parse(msg.attachments) as APIAttachment[]).map((attachment) => (
+            {attachments.map((attachment) => (
               <li key={attachment.id} className="w-full overflow-hidden  rounded-xl border border-main bg-black">
                 <img src={attachment.url} alt={attachment.description} />
               </li>
