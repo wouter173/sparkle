@@ -21,7 +21,7 @@ const Nav: FC = () => {
   const { route } = useRouter();
 
   return (
-    <header className="h-20 border-b-2 border-b-main bg-header text-white">
+    <nav className="sticky top-0 h-20 border-b-2 border-b-main bg-black bg-opacity-90 text-white backdrop-blur-md">
       <ul className="mx-auto flex h-full w-3/4 items-center gap-4">
         <li>
           <Link href="/">
@@ -48,7 +48,7 @@ const Nav: FC = () => {
           </button>
         </li> */}
       </ul>
-    </header>
+    </nav>
   );
 };
 

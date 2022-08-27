@@ -4,7 +4,8 @@ import { Message } from "discord.js";
 export const setMessage = async (
   prisma: PrismaClient,
   message: Message,
-  reactionCount: number
+  reactionCount: number,
+  attachments: string
 ) => {
   const res = await prisma.message.findUnique({
     where: {
@@ -12,7 +13,7 @@ export const setMessage = async (
     },
   });
 
-  if (res == null) return createMessage(prisma, message, reactionCount);
+  if (res == null) return createMessage(prisma, message, reactionCount, attachments);
 
   return prisma.message.update({
     where: {
@@ -27,7 +28,8 @@ export const setMessage = async (
 export const createMessage = async (
   prisma: PrismaClient,
   message: Message,
-  reactionCount: number
+  reactionCount: number,
+  attachments: string
 ) => {
   const { author, guild } = message;
   if (guild == null) throw new Error("message not guild message");
@@ -38,6 +40,7 @@ export const createMessage = async (
       message: message.content || "",
       createdAt: message.createdAt,
       reactions: reactionCount,
+      attachments: attachments,
       author: {
         connectOrCreate: {
           where: {

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Client, ClientOptions, MessageReaction, PartialMessageReaction, Partials } from "discord.js";
+import { Attachment, Client, ClientOptions, MessageReaction, PartialMessageReaction, Partials } from "discord.js";
 import { PrismaClient } from "db";
 import { setMessage } from "./mutations";
 import { trigger, emoji } from "../config.json";
@@ -78,9 +78,18 @@ const updateReaction = async (payload: MessageReaction | PartialMessageReaction)
   let message = payload.message;
   if (message.partial) message = await message.fetch();
 
+  type partialAttachment = Omit<Attachment, "attachment"> & { attachment?: string };
+  const attachments = message.attachments.map((attachment) => {
+    const partial = attachment as partialAttachment;
+    delete partial.attachment;
+    return partial;
+  });
+
+  const attachmentsString = JSON.stringify(attachments);
+
   const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
 
-  setMessage(prisma, message, reactionCount);
+  setMessage(prisma, message, reactionCount, attachmentsString);
 };
 
 client.on("messageReactionAdd", updateReaction);
