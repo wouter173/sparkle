@@ -11,7 +11,7 @@ const GuildSelector = () => {
   if (isLoading || guilds == undefined) return <div>Loading</div>;
 
   return (
-    <section className="mt-20 w-full">
+    <section className="mx-auto mt-20 flex w-1/2">
       <ul className="grid grid-cols-2 justify-center gap-4 ">
         {guilds.map((guild) => {
           return (
@@ -44,9 +44,9 @@ const GuildSelector = () => {
 
 const guildPage: NextPage = () => {
   return (
-    <main className="h-screen w-full bg-main">
+    <main className="h-screen w-full bg-body">
       <Nav />
-      <section className="mx-auto flex w-1/2">
+      <section className="min-h-[calc(100vh-80px)] w-full overflow-scroll bg-main">
         <GuildSelector />
       </section>
     </main>

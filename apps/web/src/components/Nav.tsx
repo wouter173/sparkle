@@ -21,7 +21,7 @@ const Nav: FC = () => {
   const { route } = useRouter();
 
   return (
-    <nav className="sticky top-0 h-20 border-b-2 border-b-main bg-black bg-opacity-90 text-white backdrop-blur-md">
+    <nav className="sticky top-0 h-20 w-full border-b-2 border-b-main bg-black bg-opacity-90 text-white backdrop-blur-md">
       <ul className="mx-auto flex h-full w-3/4 items-center gap-4">
         <li>
           <Link href="/">

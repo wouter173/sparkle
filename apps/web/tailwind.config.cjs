@@ -6,6 +6,7 @@ module.exports = {
       backgroundColor: {
         main: "#131115",
         header: "#000",
+        body: "#020202",
       },
       borderColor: {
         main: "#373737",
