@@ -27,24 +27,32 @@ const GuildMessagesView: FC<{ id: string }> = ({ id }) => {
   if (isLoading || data == undefined) return <>Loading</>;
 
   return (
-    <ul className="mx-auto flex w-[32em] flex-col gap-4">
+    <ul className="mx-auto flex w-[32em] flex-col gap-12">
       {data.map((msg) => (
         <li key={msg.id} className="text-white">
           <article className="flex w-full flex-row">
-            <img src={msg.author.avatar} alt="" className="h-12 rounded-full" />
-            <div className="flex flex-col">
-              <div className="rounded-lg bg-black bg-opacity-20 p-4">{msg.message}</div>
-              <ul className="w-full">
+            <img src={msg.author.avatar} alt="" className="mr-2 h-12 rounded-full" />
+            <div className="flex flex-col gap-2">
+              {msg.message ? (
+                <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">{msg.message}</div>
+              ) : null}
+
+              {msg.attachments.length != 2 ? (
                 <>
-                  {(JSON.parse(msg.attachments) as APIAttachment[]).map((attachment) => (
-                    <li key={attachment.id} className="w-full">
-                      <img src={attachment.url} alt={attachment.description} />
-                    </li>
-                  ))}
+                  <ul className="flex w-full flex-col gap-2">
+                    {(JSON.parse(msg.attachments) as APIAttachment[]).map((attachment) => (
+                      <li
+                        key={attachment.id}
+                        className="w-full overflow-hidden  rounded-xl border border-main bg-black"
+                      >
+                        <img src={attachment.url} alt={attachment.description} />
+                      </li>
+                    ))}
+                  </ul>
                 </>
-              </ul>
-              <ul className="mt-1 flex flex-row">
-                <li className="rounded-md bg-black bg-opacity-20 px-2 py-1 text-sm">✨{msg.reactions}</li>
+              ) : null}
+              <ul className="flex flex-row">
+                <li className="rounded-lg border border-main bg-black px-2 py-1 text-sm">✨{msg.reactions}</li>
               </ul>
             </div>
           </article>
