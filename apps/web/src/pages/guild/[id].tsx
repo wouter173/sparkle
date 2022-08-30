@@ -2,19 +2,22 @@ import { DiscordUser, Guild, Message } from "db";
 import { APIAttachment } from "discord-api-types/v10";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import Nav from "../../components/Nav";
+import QuickGuildSelect from "../../components/QuickGuildSelect";
 import { trpc } from "../../utils/trpc";
 
 const guildPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  if (!id || Array.isArray(id)) return <></>;
+  if (!id || Array.isArray(id)) return null;
 
   return (
     <main className="h-screen w-full overflow-scroll bg-body">
-      <Nav />
+      <Nav>
+        <QuickGuildSelect currentId={id} />
+      </Nav>
       <section className="min-h-[calc(100vh-80px)] bg-main">
         <GuildMessagesView id={id} />
       </section>
@@ -39,10 +42,11 @@ const GuildMessagesView: FC<{ id: string }> = ({ id }) => {
 };
 
 const Message: FC<{ msg: Message & { guild: Guild; author: DiscordUser } }> = ({ msg }) => {
-  const splitContent = msg.message.split(/(<a?:\S+:\d+>)/);
-
+  const splitContent = msg.message.split(/(<a?:\w+:\d+>)/);
+  console.log(msg.message);
+  console.log(splitContent);
   const contentElements = splitContent.map((slice) => {
-    const matches = slice.match(/(<a?:(?<name>\S+):(?<id>\d+)>)/);
+    const matches = slice.match(/(<a?:(?<name>\w+):(?<id>\d+)>)/);
     if (!matches) return slice;
 
     const { name, id } = matches.groups!;

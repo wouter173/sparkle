@@ -7,6 +7,7 @@ module.exports = {
         main: "#131115",
         header: "#000",
         body: "#020202",
+        highlight: "#201f20",
       },
       borderColor: {
         main: "#373737",

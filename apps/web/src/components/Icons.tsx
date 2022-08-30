@@ -33,7 +33,7 @@ export const LogoIconSansSerif = (props: IconProps) => (
     <defs>
       <linearGradient id="gradient" x1="68" y1="33" x2="68" y2="-31.5" gradientUnits="userSpaceOnUse">
         <stop offset="0" stopColor="#FFAC33" />
-        <stop offset="0" stopColor="#FFCC4D" />
+        <stop offset="1" stopColor="#FFCC4D" />
       </linearGradient>
     </defs>
   </svg>

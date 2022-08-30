@@ -1,32 +1,25 @@
-# Turborepo starter
+# sparkle
 
-This is an official Yarn v1 starter turborepo.
+## TODO
 
-## What's inside?
+- [ ] make gifs play on hover
+- [ ] home page
+- [ ] hover titles / popover (users, emojis, mentions)
+- [ ] mentions ( users, channels, roles)
+- [ ] attachments which arent images
+- [ ] gifs
+- [ ] explore page
+- [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
+- [ ] add guilds with bot invite perms and an invite button in the /guilds picker
 
-This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
+- [ ] create statistics for guilds
 
-### Apps and Packages
+## Statistics
 
-- `docs`: a [Next.js](https://nextjs.org) app
-- `web`: another [Next.js](https://nextjs.org) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- most liked user (top ten)
+- most used emote (other than sparkle)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-## Setup
-
-This repository is used in the `npx create-turbo` command, and selected when choosing which package manager you wish to use with your monorepo (Yarn).
+## Turbo
 
 ### Build
 
