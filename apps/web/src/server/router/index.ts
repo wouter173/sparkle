@@ -79,6 +79,20 @@ export const appRouter = createProtectedRouter()
       return messages;
     },
   })
+  .query("guild", {
+    input: z.object({
+      guildId: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      const guild = await prisma.guild.findFirst({
+        where: {
+          id: input.guildId,
+        },
+      });
+
+      return guild;
+    },
+  })
   .query("avatarUrl", {
     input: z.object({
       userId: z.string(),

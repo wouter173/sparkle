@@ -18,9 +18,7 @@ const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) 
 
 const Nav: FC<PropsWithChildren> = (props) => {
   const { data: session } = useSession();
-  const { route, query } = useRouter();
-
-  console.log(query.guildId);
+  const { route } = useRouter();
 
   return (
     <nav className="sticky top-0 h-20 w-full border-b border-b-main bg-black bg-opacity-90 text-white backdrop-blur-md">

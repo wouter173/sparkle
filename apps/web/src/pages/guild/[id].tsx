@@ -3,6 +3,7 @@ import { APIAttachment } from "discord-api-types/v10";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import TextTruncate from "react-text-truncate";
 import Nav from "../../components/Nav";
 import QuickGuildSelect from "../../components/QuickGuildSelect";
 import { trpc } from "../../utils/trpc";
@@ -19,9 +20,28 @@ const guildPage: NextPage = () => {
         <QuickGuildSelect currentId={id} />
       </Nav>
       <section className="min-h-[calc(100vh-80px)] bg-main">
+        <GuildHeader id={id} />
         <GuildMessagesView id={id} />
       </section>
     </main>
+  );
+};
+
+const GuildHeader: FC<{ id: string }> = ({ id }) => {
+  const { data: guild, isLoading } = trpc.useQuery(["guild", { guildId: id }]);
+
+  if (isLoading || guild == undefined) return null;
+
+  return (
+    <header className="mx-auto mb-10 w-[32em] pt-10">
+      <section className="mb-6 flex items-center">
+        <img src={guild.thumbnail} alt="guild icon" className="w-14 rounded-2xl border border-main" />
+        <h1 className="ml-4 text-lg font-bold text-white">
+          <TextTruncate line={2} text={guild.name}></TextTruncate>
+        </h1>
+      </section>
+      <hr className="border-main" />
+    </header>
   );
 };
 
@@ -43,8 +63,6 @@ const GuildMessagesView: FC<{ id: string }> = ({ id }) => {
 
 const Message: FC<{ msg: Message & { guild: Guild; author: DiscordUser } }> = ({ msg }) => {
   const splitContent = msg.message.split(/(<a?:\w+:\d+>)/);
-  console.log(msg.message);
-  console.log(splitContent);
   const contentElements = splitContent.map((slice) => {
     const matches = slice.match(/(<a?:(?<name>\w+):(?<id>\d+)>)/);
     if (!matches) return slice;
