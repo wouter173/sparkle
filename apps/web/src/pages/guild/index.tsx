@@ -19,7 +19,7 @@ const GuildSelector = () => {
               <Link href={"/guild/" + guild.id}>
                 <article className="w-full cursor-pointer rounded-2xl border border-main bg-black p-5">
                   <section className="flex h-12 items-center">
-                    <img src={guild.thumbnail} className="w-12 rounded-full" />
+                    <img src={guild.thumbnail} className="w-12 rounded-2xl" />
                     <h1 className="mx-4 w-full font-bold text-white">
                       <TextTruncate text={guild.name} line={2} />
                     </h1>

@@ -7,7 +7,7 @@ import { trpc } from "../utils/trpc";
 const GuildItem: FC<{ name: string; thumbnail: string; preview?: boolean }> = (props) => {
   return (
     <div className={"flex items-center overflow-hidden whitespace-nowrap p-1"}>
-      <img className="mr-1 h-6 rounded-full" src={props.thumbnail} alt="guild icon" />
+      <img className="mr-2 h-6 rounded-md" src={props.thumbnail} alt="guild icon" />
       <p className="overflow-hidden text-ellipsis text-sm">{props.name}</p>
     </div>
   );
