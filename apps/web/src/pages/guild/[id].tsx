@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import TextTruncate from "react-text-truncate";
+import GuildIcon from "../../components/GuildIcon";
 import Nav from "../../components/Nav";
 import QuickGuildSelect from "../../components/QuickGuildSelect";
 import { trpc } from "../../utils/trpc";
@@ -35,7 +36,7 @@ const GuildHeader: FC<{ id: string }> = ({ id }) => {
   return (
     <header className="mx-auto mb-10 w-[32em] pt-10">
       <section className="mb-6 flex items-center">
-        <img src={guild.thumbnail} alt="guild icon" className="w-14 rounded-2xl border border-main" />
+        <GuildIcon iconId={guild.thumbnail} guildId={guild.id} className="w-14 rounded-2xl border border-main" />
         <h1 className="ml-4 text-lg font-bold text-white">
           <TextTruncate line={2} text={guild.name}></TextTruncate>
         </h1>

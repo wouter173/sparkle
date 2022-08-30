@@ -63,7 +63,7 @@ export const createMessage = async (
           create: {
             id: guild.id,
             name: guild.name,
-            thumbnail: guild.iconURL() || "",
+            thumbnail: guild.icon || "",
           },
         },
       },

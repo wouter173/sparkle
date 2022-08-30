@@ -42,7 +42,7 @@ client.on("guildUpdate", async (oldGuild, newGuild) => {
     },
     data: {
       name: newGuild.name,
-      thumbnail: newGuild.iconURL() || "",
+      thumbnail: newGuild.icon || "",
     },
   });
 

@@ -5,6 +5,7 @@ import { trpc } from "../../utils/trpc";
 import TextTruncate from "react-text-truncate";
 import { ChevronRightIcon } from "@heroicons/react/solid";
 import { CrownIcon } from "../../components/Icons";
+import GuildIcon from "../../components/GuildIcon";
 
 const GuildSelector = () => {
   const { data: guilds, isLoading } = trpc.useQuery(["guilds"]);
@@ -19,7 +20,7 @@ const GuildSelector = () => {
               <Link href={"/guild/" + guild.id}>
                 <article className="w-full cursor-pointer rounded-2xl border border-main bg-black p-5">
                   <section className="flex h-12 items-center">
-                    <img src={guild.thumbnail} className="w-12 rounded-2xl" />
+                    <GuildIcon className="w-12 rounded-2xl" guildId={guild.id} iconId={guild.thumbnail} />
                     <h1 className="mx-4 w-full font-bold text-white">
                       <TextTruncate text={guild.name} line={2} />
                     </h1>
