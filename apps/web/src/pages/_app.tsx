@@ -2,16 +2,13 @@ import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
-import { AvatarUrlContextProvider } from "../components/Avatar";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
     <SessionProvider session={session}>
-      <AvatarUrlContextProvider>
-        <Component {...pageProps} />
-      </AvatarUrlContextProvider>
+      <Component {...pageProps} />
     </SessionProvider>
   );
 };

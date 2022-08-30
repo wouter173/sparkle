@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-const Animated: FC<{ endpoint: string; className?: string }> = (props) => {
+const Animated: FC<{ endpoint: string; className?: string; alt?: string }> = (props) => {
   const [hovering, setHovering] = useState(false);
 
   return (
@@ -9,7 +9,7 @@ const Animated: FC<{ endpoint: string; className?: string }> = (props) => {
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
-      <img className={props.className} src={props.endpoint + (hovering ? ".gif" : ".webp")} alt="" />
+      <img className={props.className} src={props.endpoint + (hovering ? ".gif" : ".webp")} alt={props.alt} />
     </div>
   );
 };

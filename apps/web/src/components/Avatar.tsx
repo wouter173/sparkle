@@ -1,34 +1,20 @@
-import { useSession } from "next-auth/react";
-import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from "react";
+import { FC } from "react";
 import { trpc } from "../utils/trpc";
+import Animated from "./Animated";
 
-const avatarUrlContext = createContext<string | null>(null);
+export const CurrentUserAvatar: FC<{ userId: string; className?: string }> = (props) => {
+  const { data: avatarId, isLoading } = trpc.useQuery(["avatarUrl", { userId: props.userId }]);
+  if (isLoading || !avatarId) return null;
 
-export const AvatarUrlContextProvider: FC<PropsWithChildren> = (props) => {
-  const session = useSession();
-  const avatarUrl = useAvatar(session.data ? (session.data.discordId as string) : "");
-  return <avatarUrlContext.Provider value={avatarUrl}>{props.children}</avatarUrlContext.Provider>;
+  return <Avatar {...props} avatarId={avatarId} />;
 };
 
-const Avatar: FC = () => {
-  const avatarUrl = useContext(avatarUrlContext);
+const Avatar: FC<{ userId: string; avatarId: string; className?: string }> = (props) => {
+  const endpoint = `https://cdn.discordapp.com/avatars/${props.userId}/${props.avatarId}`;
 
-  return <img className="h-10 rounded-full" src={avatarUrl || ""} />;
-};
-
-const useAvatar = (id: string) => {
-  const { data, refetch } = trpc.useQuery(["avatarUrl", { userId: id }], { enabled: false });
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!avatarUrl && id != "") refetch();
-  }, [id]);
-
-  useEffect(() => {
-    if (data) setAvatarUrl(data);
-  }, [data]);
-
-  return avatarUrl;
+  if (props.avatarId.startsWith("a_"))
+    return <Animated className={props.className} endpoint={endpoint} alt="User Avatar" />;
+  return <img className={props.className} src={endpoint + ".webp"} alt="User Avatar" />;
 };
 
 export default Avatar;

@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import TextTruncate from "react-text-truncate";
+import Avatar from "../../components/Avatar";
 import GuildIcon from "../../components/GuildIcon";
 import Nav from "../../components/Nav";
 import QuickGuildSelect from "../../components/QuickGuildSelect";
@@ -85,7 +86,7 @@ const Message: FC<{ msg: Message & { guild: Guild; author: DiscordUser } }> = ({
 
   return (
     <article className="flex w-full flex-row">
-      <img src={msg.author.avatar} alt="" className="mr-2 h-12 rounded-full" />
+      <Avatar avatarId={msg.author.avatar} userId={msg.author.id} className="mr-2 h-12 rounded-full" />
       <div className="flex flex-col gap-2">
         {contentElements.length > 0 ? (
           <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">{content}</div>

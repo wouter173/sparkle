@@ -2,16 +2,16 @@
 
 ## TODO
 
-- [ ] make gifs play on hover
+- [x] make gifs play on hover
 - [ ] home page
 - [ ] hover titles / popover (users, emojis, mentions)
 - [ ] mentions ( users, channels, roles)
 - [ ] attachments which arent images
-- [ ] gifs
-- [ ] explore page
+- [ ] emoji gifs
+- [ ] explore page (just the latest of sparkled messages from all servers)
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
-- [ ] add guilds with bot invite perms and an invite button in the /guilds picker
-- [ ] guild header
+- [ ] add guilds with bot invite perms and an invite button in the /guilds/ picker
+- [x] guild header
 
 - [ ] create statistics for guilds
 

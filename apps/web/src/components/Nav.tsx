@@ -2,7 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, PropsWithChildren, useState } from "react";
-import Avatar from "./Avatar";
+import { CurrentUserAvatar } from "./Avatar";
 import { LogoIconSansSerif } from "./Icons";
 
 const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) => {
@@ -38,7 +38,7 @@ const Nav: FC<PropsWithChildren> = (props) => {
         </li>
         <li className="ml-auto">{props.children}</li>
         <li className="ml-14">
-          <Avatar />
+          <CurrentUserAvatar userId={session?.discordId as string} className="h-10 rounded-full" />
         </li>
         {/* <li>
           <button

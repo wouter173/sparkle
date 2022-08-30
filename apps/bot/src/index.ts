@@ -63,7 +63,7 @@ client.on("userUpdate", async (oldUser, newUser) => {
     },
     data: {
       name: newUser.username,
-      avatar: newUser.avatarURL() || "",
+      avatar: newUser.avatar || "",
       discriminator: newUser.discriminator,
     },
   });
