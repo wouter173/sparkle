@@ -38,11 +38,13 @@ const QuickSelect: FC<{ currentId: string }> = (props) => {
         <SelectorIcon className="ml-auto h-5 flex-shrink-0 text-darkened"></SelectorIcon>
       </Listbox.Button>
       <Listbox.Options className="absolute top-12 flex w-full flex-col gap-2 rounded-lg border border-main bg-black p-1">
-        {guilds.map((guild) => (
-          <Listbox.Option key={guild.id} value={guild.id} className="cursor-pointer rounded-md hover:bg-highlight">
-            <GuildItem name={guild.name} thumbnail={guild.thumbnail} />
-          </Listbox.Option>
-        ))}
+        {guilds
+          .filter((guild) => guild.id != currentGuildId)
+          .map((guild) => (
+            <Listbox.Option key={guild.id} value={guild.id} className="cursor-pointer rounded-md hover:bg-highlight">
+              <GuildItem name={guild.name} thumbnail={guild.thumbnail} />
+            </Listbox.Option>
+          ))}
       </Listbox.Options>
     </Listbox>
   );

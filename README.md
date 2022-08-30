@@ -11,6 +11,7 @@
 - [ ] explore page
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [ ] add guilds with bot invite perms and an invite button in the /guilds picker
+- [ ] guild header
 
 - [ ] create statistics for guilds
 
