@@ -1,5 +1,13 @@
 import "dotenv/config";
-import { Attachment, Client, ClientOptions, MessageReaction, PartialMessageReaction, Partials } from "discord.js";
+import {
+  Attachment,
+  Client,
+  ClientOptions,
+  MessageMentions,
+  MessageReaction,
+  PartialMessageReaction,
+  Partials,
+} from "discord.js";
 import { PrismaClient } from "db";
 import { setMessage } from "./mutations";
 import { trigger, emoji } from "../config.json";
@@ -18,6 +26,36 @@ const intents: ClientOptions["intents"] = [
 const client = new Client({
   intents,
   partials: [Partials.Channel, Partials.Message, Partials.Reaction],
+});
+
+const hydrateMessageMentions = (content: string, mentions: MessageMentions) => {
+  for (const user of mentions.users.values()) {
+    content = content.replaceAll(`<@${user.id}>`, `<@${user.username}>`);
+  }
+
+  for (const role of mentions.roles.values()) {
+    content = content.replaceAll(`<@&${role.id}>`, `<@&${role.name}>`);
+  }
+
+  for (const channel of mentions.channels.values()) {
+    const filler = channel.isDMBased() ? "deleted-channel" : channel.name;
+    content = content.replaceAll(`<#${channel.id}>`, `<#${filler}>`);
+  }
+
+  content = content.replaceAll("@everyone", "<!@everyone>");
+  content = content.replaceAll("@here", "<!@here>");
+
+  return content;
+};
+
+client.on("messageUpdate", async (_oldMsg, newMsg) => {
+  const msg = newMsg.partial ? await newMsg.fetch() : newMsg;
+
+  const messageExists = !!(await prisma.message.findFirst({ where: { id: newMsg.id } }));
+  if (!messageExists) return;
+
+  msg.content = hydrateMessageMentions(msg.content, msg.mentions);
+  setMessage(prisma, msg, newMsg.reactions.cache.get(emoji)?.count ?? 0, "");
 });
 
 client.on("messageCreate", (msg) => {

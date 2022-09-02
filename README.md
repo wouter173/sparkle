@@ -1,16 +1,23 @@
 # sparkle
 
+## MVP
+
+- [ ] explore
+- [ ] landing
+- [ ] login
+- [ ] hover titles / popover (users, emojis, mentions)
+- [ ] mentions ( users, channels, roles)
+- [ ] bot
+
 ## TODO
 
 - [x] make gifs play on hover
 - [ ] home page
-- [ ] hover titles / popover (users, emojis, mentions)
-- [ ] mentions ( users, channels, roles)
 - [ ] attachments which arent images
 - [ ] emoji gifs
 - [ ] explore page (just the latest of sparkled messages from all servers)
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
-- [ ] add guilds with bot invite perms and an invite button in the /guilds/ picker
+- [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
 - [x] guild header
 
 - [ ] create statistics for guilds

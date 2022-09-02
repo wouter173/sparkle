@@ -20,6 +20,8 @@ export const setMessage = async (
       id: message.id,
     },
     data: {
+      message: message.content,
+      updatedAt: message.editedAt || new Date(),
       reactions: reactionCount,
     },
   });
