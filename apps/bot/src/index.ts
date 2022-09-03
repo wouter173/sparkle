@@ -54,8 +54,8 @@ client.on("messageUpdate", async (_oldMsg, newMsg) => {
   const messageExists = !!(await prisma.message.findFirst({ where: { id: newMsg.id } }));
   if (!messageExists) return;
 
-  msg.content = hydrateMessageMentions(msg.content, msg.mentions);
-  setMessage(prisma, msg, newMsg.reactions.cache.get(emoji)?.count ?? 0, "");
+  const content = hydrateMessageMentions(msg.content, msg.mentions);
+  setMessage(prisma, msg, content, newMsg.reactions.cache.get(emoji)?.count ?? 0, "");
 });
 
 client.on("messageCreate", (msg) => {
@@ -123,11 +123,11 @@ const updateReaction = async (payload: MessageReaction | PartialMessageReaction)
     return partial;
   });
 
+  const content = hydrateMessageMentions(message.content, message.mentions);
   const attachmentsString = JSON.stringify(attachments);
-
   const reactionCount = message.reactions.cache.get(emoji)?.count ?? 0;
 
-  setMessage(prisma, message, reactionCount, attachmentsString);
+  setMessage(prisma, message, content, reactionCount, attachmentsString);
 };
 
 client.on("messageReactionAdd", updateReaction);

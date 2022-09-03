@@ -6,7 +6,7 @@
 - [ ] landing
 - [ ] login
 - [ ] hover titles / popover (users, emojis, mentions)
-- [ ] mentions ( users, channels, roles)
+- [ ] mentions ( users, channels, roles, everyone, here)
 - [ ] bot
 
 ## TODO

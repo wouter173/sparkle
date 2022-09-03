@@ -4,6 +4,7 @@ import { Message } from "discord.js";
 export const setMessage = async (
   prisma: PrismaClient,
   message: Message,
+  content: string,
   reactionCount: number,
   attachments: string
 ) => {
@@ -13,14 +14,14 @@ export const setMessage = async (
     },
   });
 
-  if (res == null) return createMessage(prisma, message, reactionCount, attachments);
+  if (res == null) return createMessage(prisma, message, content, reactionCount, attachments);
 
   return prisma.message.update({
     where: {
       id: message.id,
     },
     data: {
-      message: message.content,
+      message: content,
       updatedAt: message.editedAt || new Date(),
       reactions: reactionCount,
     },
@@ -30,6 +31,7 @@ export const setMessage = async (
 export const createMessage = async (
   prisma: PrismaClient,
   message: Message,
+  content: string,
   reactionCount: number,
   attachments: string
 ) => {
@@ -39,7 +41,7 @@ export const createMessage = async (
   return await prisma.message.create({
     data: {
       id: message.id,
-      message: message.content || "",
+      message: content,
       createdAt: message.createdAt,
       reactions: reactionCount,
       attachments: attachments,
