@@ -6,7 +6,7 @@
 - [ ] landing
 - [ ] login
 - [ ] hover titles / popover (users, emojis, mentions)
-- [ ] mentions ( users, channels, roles, everyone, here)
+- [x] mentions ( users, channels, roles, everyone, here)
 - [ ] bot
 
 ## TODO
@@ -19,6 +19,8 @@
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
 - [x] guild header
+- [ ] guild filters (latest, chronological, most starred)
+- [ ] timestamp and link to message
 
 - [ ] create statistics for guilds
 

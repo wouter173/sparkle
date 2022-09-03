@@ -37,7 +37,7 @@ const Nav: FC<PropsWithChildren> = (props) => {
           </ul>
         </li>
         <li className="ml-auto">{props.children}</li>
-        <li className="ml-14">
+        <li className="ml-6">
           <CurrentUserAvatar userId={session?.discordId as string} className="h-10 rounded-full" />
         </li>
         {/* <li>
