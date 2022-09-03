@@ -4,16 +4,19 @@ import { FC } from "react";
 import Avatar from "./Avatar";
 
 const constructMessageElements = (message: string, id: string) => {
-  const splitRegex = /\\?(<a?:\w+:\d+>|<[#@]&?\w+>)/;
+  const splitRegex = /\\?(<a?:\S+:\d+>|<[#@]&?[^>]+>)/;
 
   const elements = message.split(splitRegex).map((part, i) => {
-    const matches = part.match(/(<a?:(?<emojiName>\w+):(?<emojiId>\d+)>|<[#@]&?(?<mentionName>\w+)>)/);
+    const matches = part.match(
+      /(<a?:(?<emojiName>\S+):(?<emojiId>\d+)>|<(?<mentionPrefix>[#@])&?(?<mentionName>[^>]+)>)/
+    );
 
     if (matches) {
-      const { emojiName, emojiId, mentionName } = matches.groups!;
+      const { emojiName, emojiId, mentionName, mentionPrefix } = matches.groups!;
 
       if (emojiName && emojiId) return <Emoji key={emojiName + id + i} name={emojiName} id={emojiId} />;
-      if (mentionName) return <Mention key={mentionName + id + i} name={mentionName} />;
+      if (mentionName && mentionPrefix)
+        return <Mention key={mentionName + id + i} prefix={mentionPrefix} name={mentionName} />;
     }
 
     return part;
@@ -58,6 +61,11 @@ const Emoji: FC<{ name: string; id: string }> = ({ name, id }) => {
   return <img className="inline-block h-5" src={url} alt={name} />;
 };
 
-const Mention: FC<{ name: string }> = ({ name }) => {
-  return <span className="rounded-sm bg-[#5865f2] bg-opacity-80 p-0.5 px-1 text-white">{name}</span>;
+const Mention: FC<{ name: string; prefix: string }> = ({ name, prefix }) => {
+  return (
+    <span className="rounded-sm bg-[#5865f2] bg-opacity-50 p-0.5 px-1 text-white">
+      {prefix}
+      {name}
+    </span>
+  );
 };
