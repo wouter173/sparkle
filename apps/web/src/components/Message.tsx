@@ -4,11 +4,12 @@ import { FC } from "react";
 import Avatar from "./Avatar";
 
 const constructMessageElements = (message: string, id: string) => {
-  const splitRegex = /\\?(<a?:\S+:\d+>|<[#@]&?[^>]+>)/;
+  const splitRegex = /(<a?:\S+:\d+>|<!?[#@]&?[^>]+>)/;
+  console.log(message.split(splitRegex));
 
   const elements = message.split(splitRegex).map((part, i) => {
     const matches = part.match(
-      /(<a?:(?<emojiName>\S+):(?<emojiId>\d+)>|<(?<mentionPrefix>[#@])&?(?<mentionName>[^>]+)>)/
+      /(<a?:(?<emojiName>\S+):(?<emojiId>\d+)>|<!?(?<mentionPrefix>[#@])&?(?<mentionName>[^>]+)>)/
     );
 
     if (matches) {
