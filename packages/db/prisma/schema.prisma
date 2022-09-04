@@ -23,6 +23,7 @@ model Message {
   id          String      @id @unique
   message     String      @db.Text
   reactions   Int
+  channelId   String
   guildId     String
   guild       Guild       @relation(fields: [guildId], references: [id])
   authorId    String
