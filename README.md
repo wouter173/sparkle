@@ -4,25 +4,25 @@
 
 - [ ] explore
 - [ ] landing
-- [ ] login
-- [ ] hover titles / popover (users, emojis, mentions)
+- [x] login
 - [x] mentions ( users, channels, roles, everyone, here)
 - [ ] bot
 
 ## TODO
 
+- [ ] timestamp and link to message
+- [ ] explore page (just the latest of sparkled messages from all servers)
+- [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [x] make gifs play on hover
-- [ ] user popover
+- [x] user popover
+- [ ] hover titles / popover (users, emojis, mentions
 - [ ] fallback for images (default discord profile pictures)
 - [ ] home page
 - [ ] attachments which arent images
 - [ ] emoji gifs
-- [ ] explore page (just the latest of sparkled messages from all servers)
-- [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
-- [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
 - [x] guild header
 - [ ] guild filters (latest, chronological, most starred)
-- [ ] timestamp and link to message
+- [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
 
 - [ ] create statistics for guilds
 
