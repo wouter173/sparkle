@@ -78,7 +78,7 @@ const UserManager: FC = () => {
               <hr className="border-main" />
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="flex flex-row items-center rounded-md bg-main py-0.5 px-2 text-red-600 hover:bg-highlight"
+                className="flex flex-row items-center justify-center rounded-md bg-main py-0.5 px-2 text-red-600 hover:bg-highlight"
               >
                 Logout <ArrowLeftOnRectangleIcon className="ml-1 h-4" />
               </button>

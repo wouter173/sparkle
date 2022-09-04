@@ -14,6 +14,7 @@ module.exports = {
       },
       textColor: {
         darkened: "#ccc",
+        embossed: "#545155",
       },
     },
   },

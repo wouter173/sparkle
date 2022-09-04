@@ -6,7 +6,7 @@ export const CurrentUserAvatar: FC<{ userId: string; className?: string }> = (pr
   const { data: avatarId, isLoading } = trpc.useQuery(["avatarUrl", { userId: props.userId }]);
   if (isLoading || !avatarId) return null;
 
-  return <Avatar {...props} avatarId={avatarId} />;
+  return <Avatar {...props} avatarId={avatarId} className={props.className} />;
 };
 
 const Avatar: FC<{ userId: string; avatarId: string; className?: string }> = (props) => {
