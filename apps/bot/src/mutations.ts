@@ -40,6 +40,7 @@ export const createMessage = async (
 
   return await prisma.message.create({
     data: {
+      channelId: message.channel.id,
       id: message.id,
       message: content,
       createdAt: message.createdAt,
