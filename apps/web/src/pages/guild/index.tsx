@@ -3,7 +3,7 @@ import Link from "next/link";
 import Nav from "../../components/Nav";
 import { trpc } from "../../utils/trpc";
 import TextTruncate from "react-text-truncate";
-import { ChevronRightIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { CrownIcon } from "../../components/Icons";
 import GuildIcon from "../../components/GuildIcon";
 

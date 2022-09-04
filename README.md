@@ -12,6 +12,8 @@
 ## TODO
 
 - [x] make gifs play on hover
+- [ ] user popover
+- [ ] fallback for images (default discord profile pictures)
 - [ ] home page
 - [ ] attachments which arent images
 - [ ] emoji gifs

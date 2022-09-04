@@ -1,5 +1,5 @@
 import { Listbox } from "@headlessui/react";
-import { SelectorIcon } from "@heroicons/react/solid";
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { trpc } from "../utils/trpc";
@@ -37,7 +37,7 @@ const QuickSelect: FC<{ currentId: string }> = (props) => {
           name={guilds.find((g) => g.id == currentGuildId)?.name || ""}
           thumbnail={guilds.find((g) => g.id == currentGuildId)?.thumbnail || ""}
         />
-        <SelectorIcon className="ml-auto h-5 flex-shrink-0 text-darkened"></SelectorIcon>
+        <ChevronUpDownIcon className="ml-auto h-5 flex-shrink-0 text-darkened" />
       </Listbox.Button>
       <Listbox.Options className="absolute top-12 flex w-full flex-col gap-2 rounded-lg border border-main bg-black p-1">
         {guilds

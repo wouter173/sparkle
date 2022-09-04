@@ -120,6 +120,27 @@ export const appRouter = createProtectedRouter()
       if (user == null) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Prisma cannot find user" });
       return user.avatar;
     },
+  })
+  .query("user", {
+    input: z.object({
+      userId: z.string(),
+    }),
+    async resolve({ input: { userId } }) {
+      const user = await prisma.discordUser.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          discriminator: true,
+          avatar: true,
+        },
+      });
+
+      if (user == null) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Prisma cannot find user" });
+      return user;
+    },
   });
 
 export type AppRouter = typeof appRouter;

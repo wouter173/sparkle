@@ -1,9 +1,12 @@
+import { Popover } from "@headlessui/react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { CurrentUserAvatar } from "./Avatar";
 import { LogoIconSansSerif } from "./Icons";
+import { trpc } from "../utils/trpc";
 
 const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) => {
   return (
@@ -17,7 +20,6 @@ const NavLink: FC<{ active?: boolean; route: string; title: string }> = (props) 
 };
 
 const Nav: FC<PropsWithChildren> = (props) => {
-  const { data: session } = useSession();
   const { route } = useRouter();
 
   return (
@@ -38,18 +40,59 @@ const Nav: FC<PropsWithChildren> = (props) => {
         </li>
         <li className="ml-auto">{props.children}</li>
         <li className="ml-6">
-          <CurrentUserAvatar userId={session?.discordId as string} className="h-10 rounded-full" />
+          <UserManager />
         </li>
-        {/* <li>
-          <button
-            onClick={() => (session ? signOut({ callbackUrl: "/" }) : signIn("discord", { callbackUrl: "/guild" }))}
-            className="bg-gray-700 bg-opacity-80 py-2 px-4 text-red-200 rounded-md"
-          >
-            {session ? "Logout" : "Login"}
-          </button>
-        </li> */}
       </ul>
     </nav>
+  );
+};
+
+const UserManager: FC = () => {
+  const { data: session } = useSession();
+
+  const userId = session ? (session.discordId as string) : "";
+  const { isLoading, refetch, data: user } = trpc.useQuery(["user", { userId }], { enabled: false });
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      refetch();
+    }
+  }, [session]);
+
+  if (session) {
+    return (
+      <Popover className="relative h-10 w-10">
+        <Popover.Button>
+          <CurrentUserAvatar userId={session?.discordId as string} className="h-10 rounded-full" />
+        </Popover.Button>
+        <Popover.Panel
+          className="absolute right-0 z-30 grid w-max grid-cols-1 gap-2 rounded-xl border border-main bg-black p-2 px-3"
+          as="div"
+        >
+          {isLoading && <p>Loading...</p>}
+          {!isLoading && (
+            <>
+              <p className="px-1 text-darkened">
+                {user?.name}#{user?.discriminator}
+              </p>
+              <hr className="border-main" />
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="flex flex-row items-center rounded-md bg-main py-0.5 px-2 text-red-600 hover:bg-highlight"
+              >
+                Logout <ArrowLeftOnRectangleIcon className="ml-1 h-4" />
+              </button>
+            </>
+          )}
+        </Popover.Panel>
+      </Popover>
+    );
+  }
+
+  return (
+    <button onClick={() => signIn("discord")} className="rounded-md border border-main bg-black p-2 px-3 text-white">
+      Login
+    </button>
   );
 };
 
