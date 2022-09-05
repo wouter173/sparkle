@@ -4,27 +4,29 @@
 
 - [ ] explore
 - [ ] landing
+- [ ] bot
 - [x] login
 - [x] mentions ( users, channels, roles, everyone, here)
-- [ ] bot
 
 ## TODO
 
 - [x] emoji gifs
-- [ ] fallback for images (default discord profile pictures)
+- [x] fallback for images (default discord profile pictures)
 - [x] timestamp and link to message
-- [ ] explore page (just the latest of sparkled messages from all servers)
-- [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [x] make gifs play on hover
 - [x] user popover
+- [x] guild header
+- [ ] attachments which arent images
+- [ ] explore page (just the latest of sparkled messages from all servers)
+- [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [ ] hover titles / popover (users, emojis, mentions
 - [ ] home page
-- [ ] attachments which arent images
-- [x] guild header
 - [ ] guild filters (latest, chronological, most starred)
-- [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
+
+- [ ] slash commands
 
 - [ ] create statistics for guilds
+- [ ] add statsistics on the cards in the picker and the header when in guild/\[id\]
 
 ## Statistics
 
@@ -34,6 +36,7 @@
 ## BackBurner
 
 - [ ] better timestamp
+- [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
 
 ## Turbo
 
