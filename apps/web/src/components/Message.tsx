@@ -1,17 +1,18 @@
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
+import { ArrowTopRightOnSquareIcon, DocumentIcon } from "@heroicons/react/24/outline";
 import { DiscordUser, Guild, Message as MessageType } from "db";
 import { APIAttachment } from "discord-api-types/v10";
 import { createContext, FC, useContext, useState } from "react";
+import { humanFileSize } from "../utils/filesize";
 import Avatar from "./Avatar";
 
 const hoverContext = createContext(false);
 
 const constructMessageElements = (message: string, id: string) => {
-  const splitRegex = /(<a?:\S+:\d+>|<!?[#@]&?[^>]+>)/;
+  const splitRegex = /(<a?:[^:]+:\d+>|<!?[#@]&?[^>]+>)/;
 
   const elements = message.split(splitRegex).map((part, i) => {
     const matches = part.match(
-      /(<(?<emojiAnimated>a)?:(?<emojiName>\S+):(?<emojiId>\d+)>|<!?(?<mentionPrefix>[#@])&?(?<mentionName>[^>]+)>)/
+      /(<(?<emojiAnimated>a)?:(?<emojiName>[^:]+):(?<emojiId>\d+)>|<!?(?<mentionPrefix>[#@])&?(?<mentionName>[^>]+)>)/
     );
 
     if (matches) {
@@ -31,7 +32,7 @@ const constructMessageElements = (message: string, id: string) => {
 };
 
 export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUser } }> = ({ msg }) => {
-  const contentElements = constructMessageElements(msg.message, msg.id);
+  const textContentElements = constructMessageElements(msg.message, msg.id);
   const attachments = JSON.parse(msg.attachments) as APIAttachment[];
 
   const linkUrl = msg.channelId ? `https://discord.com/channels/${msg.guild.id}/${msg.channelId}/${msg.id}` : null;
@@ -52,15 +53,18 @@ export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUse
           `}
           />
           <div className="relative top-0 z-20 flex flex-col gap-1">
-            {contentElements.length > 0 ? (
-              <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">{contentElements}</div>
+            {textContentElements.length > 0 ? (
+              <div className="w-fit rounded-xl border border-main bg-black p-2 px-3">{textContentElements}</div>
             ) : null}
 
             {attachments.length > 0 ? (
               <ul className="flex w-full flex-col gap-1">
                 {attachments.map((attachment) => (
-                  <li key={attachment.id} className="w-full overflow-hidden  rounded-xl border border-main bg-black">
-                    <img src={attachment.url} alt={attachment.description} />
+                  <li
+                    key={attachment.id}
+                    className="w-fit max-w-full overflow-hidden rounded-xl border border-main bg-black"
+                  >
+                    <Attachment attachment={attachment} />
                   </li>
                 ))}
               </ul>
@@ -86,6 +90,26 @@ export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUse
         </div>
       </article>
     </hoverContext.Provider>
+  );
+};
+
+const Attachment: FC<{ attachment: APIAttachment }> = ({ attachment }) => {
+  const supportedAttachmentTypes = ["image/gif", "image/jpeg", "image/png"];
+
+  //this catches contentType which has been ported to content_type to match the discord API
+  const contentType = attachment.content_type || (attachment as APIAttachment & { contentType?: string }).contentType;
+
+  if (supportedAttachmentTypes.includes(contentType || ""))
+    return <img src={attachment.url} alt={attachment.description} />;
+
+  return (
+    <div className="flex flex-row items-center p-2 px-3">
+      <DocumentIcon className="mr-1 h-7 text-darkened" />
+      <div>
+        <p className="text-sm text-darkened">{attachment.filename || "File"}</p>
+        <p className="text-xs text-darkened text-opacity-70">{humanFileSize(attachment.size)}</p>
+      </div>
+    </div>
   );
 };
 

@@ -16,11 +16,12 @@
 - [x] make gifs play on hover
 - [x] user popover
 - [x] guild header
-- [ ] attachments which arent images
+- [x] attachments which arent images
 - [ ] explore page (just the latest of sparkled messages from all servers)
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [ ] hover titles / popover (users, emojis, mentions
 - [ ] home page
+- [ ] page titles
 - [ ] guild filters (latest, chronological, most starred)
 
 - [ ] slash commands
