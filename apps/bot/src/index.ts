@@ -127,7 +127,7 @@ const updateReaction = async (payload: MessageReaction | PartialMessageReaction)
       id: attachment.id,
       filename: attachment.name,
       description: attachment.description,
-      contentType: attachment.contentType,
+      content_type: attachment.contentType,
       height: attachment.height,
       width: attachment.width,
       size: attachment.size,
