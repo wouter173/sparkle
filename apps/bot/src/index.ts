@@ -116,11 +116,26 @@ const updateReaction = async (payload: MessageReaction | PartialMessageReaction)
   let message = payload.message;
   if (message.partial) message = await message.fetch();
 
-  type partialAttachment = Omit<Attachment, "attachment"> & { attachment?: string };
+  type partialAttachment = Omit<Attachment, "attachment" | "name"> & {
+    filename: string | null;
+    attachment?: string;
+    name?: string;
+  };
+
   const attachments = message.attachments.map((attachment) => {
-    const partial = attachment as partialAttachment;
-    delete partial.attachment;
-    return partial;
+    return {
+      id: attachment.id,
+      filename: attachment.name,
+      description: attachment.description,
+      contentType: attachment.contentType,
+      height: attachment.height,
+      width: attachment.width,
+      size: attachment.size,
+      url: attachment.url,
+      proxyUrl: attachment.proxyURL,
+      ephemeral: attachment.ephemeral,
+      spoiler: attachment.spoiler,
+    };
   });
 
   const content = hydrateMessageMentions(message.content, message.mentions);
