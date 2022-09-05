@@ -10,16 +10,16 @@
 
 ## TODO
 
+- [x] emoji gifs
+- [ ] fallback for images (default discord profile pictures)
 - [x] timestamp and link to message
 - [ ] explore page (just the latest of sparkled messages from all servers)
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [x] make gifs play on hover
 - [x] user popover
 - [ ] hover titles / popover (users, emojis, mentions
-- [ ] fallback for images (default discord profile pictures)
 - [ ] home page
 - [ ] attachments which arent images
-- [ ] emoji gifs
 - [x] guild header
 - [ ] guild filters (latest, chronological, most starred)
 - [ ] add guild cards with bot invite perms and an invite button in the /guilds/ picker
