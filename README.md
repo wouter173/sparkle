@@ -10,7 +10,7 @@
 
 ## TODO
 
-- [ ] timestamp and link to message
+- [x] timestamp and link to message
 - [ ] explore page (just the latest of sparkled messages from all servers)
 - [ ] guild settings (trigger emotes, minimal amount of sparkles, public channel)
 - [x] make gifs play on hover
@@ -30,6 +30,10 @@
 
 - most liked user (top ten)
 - most used emote (other than sparkle)
+
+## BackBurner
+
+- [ ] better timestamp
 
 ## Turbo
 

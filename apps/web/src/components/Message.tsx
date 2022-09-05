@@ -1,4 +1,4 @@
-import { ArrowTopRightOnSquareIcon, LinkIcon } from "@heroicons/react/20/solid";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { DiscordUser, Guild, Message as MessageType } from "db";
 import { APIAttachment } from "discord-api-types/v10";
 import { FC, useState } from "react";
@@ -31,6 +31,8 @@ export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUse
   const contentElements = constructMessageElements(msg.message, msg.id);
   const attachments = JSON.parse(msg.attachments) as APIAttachment[];
 
+  const linkUrl = msg.channelId ? `https://discord.com/channels/${msg.guild.id}/${msg.channelId}/${msg.id}` : null;
+
   const [hover, setHover] = useState(false);
 
   return (
@@ -56,6 +58,7 @@ export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUse
               ))}
             </ul>
           ) : null}
+
           <ul className="flex flex-row">
             <li className="rounded-lg border border-main bg-black px-2 py-1 text-sm">✨{msg.reactions}</li>
           </ul>
@@ -65,10 +68,12 @@ export const Message: FC<{ msg: MessageType & { guild: Guild; author: DiscordUse
               flex flex-row items-start text-xs font-semibold text-embossed transition-all
             `}
           >
-            {msg.author.name}#{msg.author.discriminator} - {msg.createdAt.toDateString()} -{" "}
-            <a href="" className="ml-0.5 flex items-center">
-              Link <ArrowTopRightOnSquareIcon className="ml-0.5 h-3" />
-            </a>
+            {msg.author.name}#{msg.author.discriminator} - {msg.createdAt.toDateString()}
+            {linkUrl && (
+              <a href={linkUrl} className="ml-0.5 flex items-center" target="_blank" rel="noreferrer">
+                - Link <ArrowTopRightOnSquareIcon className="ml-0.5 h-3" />
+              </a>
+            )}
           </div>
         </div>
       </div>
